@@ -1,0 +1,4 @@
+<Texts>
+    <Text Name="AdminJoinToServer">* Admin $player_name join to server</Text>
+    <Text Name="LoginOfAnotherAdminAccount">Prohibited the use of another admin's account!</Text>
+</Texts>

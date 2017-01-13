@@ -1,0 +1,21 @@
+<Texts>
+    <Group Name="AdminsListGUI">
+        <Text Name="WindowTitle">Admins list</Text>
+        <Text Name="NameColumnTitle">Admin nickname</Text>
+        <Text Name="ACLGroupColumnTitle">ACL Group</Text>
+        <Text Name="DateOfRemovalColumnTitle">Deadline of admin</Text>
+        <Text Name="CurrentUseColumnTitle">Status</Text>
+        <Text Name="CurrentUseOfflineText">Offline</Text>
+        <Text Name="CurrentUseOnlineText">Online</Text>
+        <Text Name="ShowHideInfoLabelText">Press $open_admins_list_button to close this window</Text>
+    </Group>
+    <Group Name="WarningAboutDeadlineOfAdminGUI">
+        <Text Name="WindowTitle">Attention</Text>
+        <Text Name="WarningText">Today is the deadline of your admin rights!#br#To resolve this problem, contact the server administrators.</Text>
+        <Text Name="ConfirmButtonText">Confirm</Text>
+    </Group>
+    <Group Name="ACLGroupTexts">
+        <Text Name="Moderator">Moderator</Text>
+        <Text Name="SuperModerator">SuperModerator</Text>
+    </Group>
+</Texts>

@@ -1,0 +1,51 @@
+<meta>
+	<info author="Victor Projects" version="1.0" name="Admins Control" showInResourceBrowser="true" type="script" />
+
+	<script src="try-catch.lua" type="shared" />
+	<script src="texts/texts.lua" type="shared" />
+	<script src="ac_server.lua" type="server" />
+	<script src="ac_export.lua" type="server" />
+	<script src="web/ac_web.lua" type="server" />
+	<script src="ac_client.lua" type="client" />
+
+	<file src="texts/data/texts_client.xml" />
+
+	<export function="addNewAdmin" type="server" />
+	<export function="removeAdmin" type="server" />
+	<export function="updateAdmin" type="server" />
+
+	<html src="web/index.html" default="true"/>
+	<html src="web/css/ac_main.css" raw="false"/>
+	<html src="web/js/ac_update.js" raw="false"/>
+	<html src="web/js/ac_main.js" raw="false"/>
+	<html src="web/js/ac_events.js" raw="false"/>
+
+	<export function="webGetAdminsData" http="true" />
+	<export function="webGetMoreAdminsData" http="true" />
+	<export function="webAddNewAdmin" http="true" />
+	<export function="webRemoveAdmin" http="true" />
+	<export function="webEditAdmin" http="true" />
+	<export function="webUpdateAddedAdmins" http="true" />
+	<export function="webUpdateRemovedAdmins" http="true" />
+	<export function="webUpdateEditedAdmins" http="true" />
+	<export function="webGetAllowedAdminsACLGroups" http="true" />
+
+	<settings>
+		<!-- Period of cleaning data of ended admins. In minutes. -->
+		<setting name="AdminsDataCleanPeriod" value="240" />
+		<!-- Allowed admins ACL groups -->
+		<setting name="AllowedAdminsACLGroups" value="[['Moderator', 'SuperModerator']]" />
+		<!-- Web maximum number of rows to show. -->
+		<setting name="WebMaxNumberOfRowsToShow" value="10" />
+		<!-- Button to open list of admins. -->
+		<setting name="ClientOpenAdminsListButton" value="F5"/>
+		<!-- Setting of GUI scale. -->
+		<setting name="ClientGUIScale" value="4.5" />
+	</settings>
+
+	<aclrequest>
+		<right name="function.kickPlayer" access="true" />
+		<right name="function.aclGroupAddObject" access="true"/>
+		<right name="function.aclGroupRemoveObject" access="true"/>
+	</aclrequest>
+</meta>
