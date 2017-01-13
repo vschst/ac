@@ -49,7 +49,7 @@ addEventHandler("ACErrorOutput", getRootElement(),
         if (getElementType(source) == "player") then
             outputServerLog("[AC] Error! Player: " .. getPlayerName(source) .. ", Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', ErrorCode: '" .. ErrorCode .. "')")
         else
-            outputServerLog("[GM] Error! Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', ErrorCode: '" .. ErrorCode .. "')")
+            outputServerLog("[AC] Error! Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', ErrorCode: '" .. ErrorCode .. "')")
         end
     end
 )
