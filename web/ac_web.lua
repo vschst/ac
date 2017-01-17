@@ -379,3 +379,18 @@ function webGetAllowedAdminsACLGroups()
 
     return returnTable
 end
+
+
+function webGetTexts()
+    local returnTable = {}
+
+    returnTable.ErrorCode = 0
+
+    if (ACServerLoad == true) then
+        returnTable.Response = TextsWeb
+    else
+        returnTable.ErrorCode = (-1)
+    end
+
+    return returnTable
+end

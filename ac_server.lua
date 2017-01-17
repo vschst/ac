@@ -17,6 +17,7 @@ addEventHandler("onResourceStart", getRootElement(),
                     loadAdminsData()
 
                     TextsServer = loadTexts("texts/data/texts_server.xml")
+                    TextsWeb = loadTexts("texts/data/texts_web.xml")
 
                     AdminsDataCleanTimer = setTimer(adminsDataClean, ACSettings.AdminsDataCleanPeriod * 60 * 1000, 1)
 
@@ -47,9 +48,9 @@ addEvent("ACErrorOutput", true)
 addEventHandler("ACErrorOutput", getRootElement(),
     function(ErrorSource, ErrorCode)
         if (getElementType(source) == "player") then
-            outputServerLog("[AC] Error! Player: " .. getPlayerName(source) .. ", Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', ErrorCode: '" .. ErrorCode .. "')")
+            outputServerLog("[AC] Error! Player: " .. getPlayerName(source) .. ", Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', Code: '" .. ErrorCode .. "')")
         else
-            outputServerLog("[AC] Error! Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', ErrorCode: '" .. ErrorCode .. "')")
+            outputServerLog("[AC] Error! Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', Code: '" .. ErrorCode .. "')")
         end
     end
 )
@@ -173,7 +174,7 @@ addEventHandler("onPlayerLogin", getRootElement(),
             if ((playerLogin ~= false) and (playerIP ~= false) and (playerSerial ~= false) and (playerName ~= false)) then
                 if (AdminsData[playerLogin] ~= nil) then
                     if ((AdminsData[playerLogin].BindingToSerial == true) and (AdminsData[playerLogin].Serial ~= nil) and (AdminsData[playerLogin].Serial ~= playerSerial)) then
-                        kickPlayer(source, TextsServer.LoginOfAnotherAdminAccount)
+                        kickPlayer(source, TextsServer.LoginOfForeignAdminAccount)
                     else
                         local addNewAdminsListDataOnClient = false
 

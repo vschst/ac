@@ -227,18 +227,18 @@ function loadAdminsListGUI()
     AdminsListGUIAdminsGridList = {}
 
     AdminsListGUIAdminsGridList.Width = AdminsListGUIWindow.Width - 20 * ACSettings.GUIScale
-    AdminsListGUIAdminsGridList.Heigth = 480 * ACSettings.GUIScale
+    AdminsListGUIAdminsGridList.Height = 480 * ACSettings.GUIScale
 
     AdminsListGUIAdminsGridList.X = 10 * ACSettings.GUIScale
     AdminsListGUIAdminsGridList.Y = 45 * ACSettings.GUIScale
 
-    local currentHeightPosition = AdminsListGUIAdminsGridList.Y + AdminsListGUIAdminsGridList.Heigth
+    local currentHeightPosition = AdminsListGUIAdminsGridList.Y + AdminsListGUIAdminsGridList.Height
 
     AdminsListGUIAdminsGridList.Element = guiCreateGridList(
         AdminsListGUIAdminsGridList.X,
         AdminsListGUIAdminsGridList.Y,
         AdminsListGUIAdminsGridList.Width,
-        AdminsListGUIAdminsGridList.Heigth,
+        AdminsListGUIAdminsGridList.Height,
         false,
         AdminsListGUIWindow.Element)
 
@@ -251,7 +251,7 @@ function loadAdminsListGUI()
     --Create columns
     AdminsListGUIAdminsGridList.Columns = {}
 
-    AdminsListGUIAdminsGridList.Columns.Name = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.NameColumnTitle, 0.28)
+    AdminsListGUIAdminsGridList.Columns.Name = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.GridList.Columns.NameTitle, 0.28)
 
     if (AdminsListGUIAdminsGridList.Columns.Name == false) then
         ErrorData.Code = (-3)
@@ -259,7 +259,7 @@ function loadAdminsListGUI()
         error(ErrorData)
     end
 
-    AdminsListGUIAdminsGridList.Columns.ACLGroup = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.ACLGroupColumnTitle, 0.27)
+    AdminsListGUIAdminsGridList.Columns.ACLGroup = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.GridList.Columns.ACLGroupTitle, 0.27)
 
     if (AdminsListGUIAdminsGridList.Columns.ACLGroup == false) then
         ErrorData.Code = (-4)
@@ -267,7 +267,7 @@ function loadAdminsListGUI()
         error(ErrorData)
     end
 
-    AdminsListGUIAdminsGridList.Columns.DateOfRemoval = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.DateOfRemovalColumnTitle, 0.24)
+    AdminsListGUIAdminsGridList.Columns.DateOfRemoval = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.GridList.Columns.DateOfRemovalTitle, 0.24)
 
     if (AdminsListGUIAdminsGridList.Columns.DateOfRemoval == false) then
         ErrorData.Code = (-5)
@@ -275,7 +275,7 @@ function loadAdminsListGUI()
         error(ErrorData)
     end
 
-    AdminsListGUIAdminsGridList.Columns.CurrentUse = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.CurrentUseColumnTitle, 0.15)
+    AdminsListGUIAdminsGridList.Columns.CurrentUse = guiGridListAddColumn(AdminsListGUIAdminsGridList.Element, TextsClient.AdminsListGUI.GridList.Columns.CurrentUseTitle, 0.15)
 
     if (AdminsListGUIAdminsGridList.Columns.CurrentUse == false) then
         ErrorData.Code = (-6)
@@ -314,7 +314,7 @@ function loadAdminsListGUI()
     AdminsListGUIShowHideInfoLabel = {}
 
     AdminsListGUIShowHideInfoLabel.Width = AdminsListGUIWindow.Width - 20 * ACSettings.GUIScale
-    AdminsListGUIShowHideInfoLabel.Heigth = 25 * ACSettings.GUIScale
+    AdminsListGUIShowHideInfoLabel.Height = 25 * ACSettings.GUIScale
 
     AdminsListGUIShowHideInfoLabel.X = 10 * ACSettings.GUIScale
     AdminsListGUIShowHideInfoLabel.Y = currentHeightPosition + 20 * ACSettings.GUIScale
@@ -323,7 +323,7 @@ function loadAdminsListGUI()
         AdminsListGUIShowHideInfoLabel.X,
         AdminsListGUIShowHideInfoLabel.Y,
         AdminsListGUIShowHideInfoLabel.Width,
-        AdminsListGUIShowHideInfoLabel.Heigth,
+        AdminsListGUIShowHideInfoLabel.Height,
         string.gsub(TextsClient.AdminsListGUI.ShowHideInfoLabelText, "$open_admins_list_button", ACSettings.OpenAdminsListButton),
         false,
         AdminsListGUIWindow.Element)
@@ -340,7 +340,7 @@ end
 
 
 function loadWarningAboutDeadlineOfAdminGUI ()
-    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0 }
+    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0}
 
     --Create window
     WarningAboutDeadlineOfAdminGUIWindow = {}
@@ -371,18 +371,18 @@ function loadWarningAboutDeadlineOfAdminGUI ()
     WarningAboutDeadlineOfAdminGUITextLabel = {}
 
     WarningAboutDeadlineOfAdminGUITextLabel.Width = WarningAboutDeadlineOfAdminGUIWindow.Width - 20 * ACSettings.GUIScale
-    WarningAboutDeadlineOfAdminGUITextLabel.Heigth = 130 * ACSettings.GUIScale
+    WarningAboutDeadlineOfAdminGUITextLabel.Height = 130 * ACSettings.GUIScale
 
     WarningAboutDeadlineOfAdminGUITextLabel.X = 10 * ACSettings.GUIScale
     WarningAboutDeadlineOfAdminGUITextLabel.Y = 50 * ACSettings.GUIScale
 
-    local currentHeightPosition = WarningAboutDeadlineOfAdminGUITextLabel.Y + WarningAboutDeadlineOfAdminGUITextLabel.Heigth
+    local currentHeightPosition = WarningAboutDeadlineOfAdminGUITextLabel.Y + WarningAboutDeadlineOfAdminGUITextLabel.Height
 
     WarningAboutDeadlineOfAdminGUITextLabel.Element = guiCreateLabel(
         WarningAboutDeadlineOfAdminGUITextLabel.X,
         WarningAboutDeadlineOfAdminGUITextLabel.Y,
         WarningAboutDeadlineOfAdminGUITextLabel.Width,
-        WarningAboutDeadlineOfAdminGUITextLabel.Heigth,
+        WarningAboutDeadlineOfAdminGUITextLabel.Height,
         string.gsub(TextsClient.WarningAboutDeadlineOfAdminGUI.WarningText, "#br#", "\n\n"),
         false,
         WarningAboutDeadlineOfAdminGUIWindow.Element)
@@ -397,7 +397,7 @@ function loadWarningAboutDeadlineOfAdminGUI ()
     WarningAboutDeadlineOfAdminGUIConfirmButton = {}
 
     WarningAboutDeadlineOfAdminGUIConfirmButton.Width = 100 * ACSettings.GUIScale
-    WarningAboutDeadlineOfAdminGUIConfirmButton.Heigth = 100 * ACSettings.GUIScale
+    WarningAboutDeadlineOfAdminGUIConfirmButton.Height = 100 * ACSettings.GUIScale
 
     WarningAboutDeadlineOfAdminGUIConfirmButton.X = (WarningAboutDeadlineOfAdminGUIWindow.Width - WarningAboutDeadlineOfAdminGUIConfirmButton.Width) / 2
     WarningAboutDeadlineOfAdminGUIConfirmButton.Y = currentHeightPosition + 20 * ACSettings.GUIScale
@@ -406,7 +406,7 @@ function loadWarningAboutDeadlineOfAdminGUI ()
         WarningAboutDeadlineOfAdminGUIConfirmButton.X,
         WarningAboutDeadlineOfAdminGUIConfirmButton.Y,
         WarningAboutDeadlineOfAdminGUIConfirmButton.Width,
-        WarningAboutDeadlineOfAdminGUIConfirmButton.Heigth,
+        WarningAboutDeadlineOfAdminGUIConfirmButton.Height,
         TextsClient.WarningAboutDeadlineOfAdminGUI.ConfirmButtonText,
         false,
         WarningAboutDeadlineOfAdminGUIWindow.Element
@@ -432,7 +432,7 @@ end
 
 
 function setItemsForAdminsGridList(rowIndex, ItemsData)
-    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0 }
+    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0}
 
     if (ItemsData.Name ~= nil) then
         local nameText = string.gsub(ItemsData.Name, '#%x%x%x%x%x%x', '')
@@ -451,8 +451,8 @@ function setItemsForAdminsGridList(rowIndex, ItemsData)
     if (ItemsData.ACLGroup ~= nil) then
         local aclGroupText = ItemsData.ACLGroup
 
-        if ((TextsClient.ACLGroupTexts ~= nil) and (TextsClient.ACLGroupTexts[ItemsData.ACLGroup] ~= nil)) then
-            aclGroupText = TextsClient.ACLGroupTexts[ItemsData.ACLGroup]
+        if ((TextsClient.AdminsListGUI.GridList.ACLGroup ~= nil) and (TextsClient.AdminsListGUI.GridList.ACLGroup[ItemsData.ACLGroup] ~= nil)) then
+            aclGroupText = TextsClient.AdminsListGUI.GridList.ACLGroup[ItemsData.ACLGroup]
         end
 
         if (guiGridListSetItemText(AdminsListGUIAdminsGridList.Element, rowIndex, AdminsListGUIAdminsGridList.Columns.ACLGroup, aclGroupText, false, false) == false) then
@@ -475,12 +475,12 @@ function setItemsForAdminsGridList(rowIndex, ItemsData)
     end
 
     if (ItemsData.CurrentUse ~= nil) then
-        local currentUseText = TextsClient.AdminsListGUI.CurrentUseOfflineText
+        local currentUseText = TextsClient.AdminsListGUI.GridList.CurrentUse.OfflineText
 
         local currentUseTextColor = {R = 255, G = 0, B = 0}
 
         if (ItemsData.CurrentUse == true) then
-            currentUseText = TextsClient.AdminsListGUI.CurrentUseOnlineText
+            currentUseText = TextsClient.AdminsListGUI.GridList.CurrentUse.OnlineText
 
             currentUseTextColor = {R = 0, G = 255, B = 0}
         end

@@ -196,12 +196,12 @@ $("#add-new-admin-btn").click(
             if(adminLogin == "") {
                 setInputDanger("add-new-admin-login");
 
-                alert("Admin login empty!");
+                alert(ACJSTexts.AddNewAdminPage.Error.LoginEmptyText);
             }
             else if ((Number.isInteger(adminTerm) == false) || (adminTerm <= 0)) {
                 setInputDanger("add-new-admin-term");
 
-                alert("Admin term empty!");
+                alert(ACJSTexts.AddNewAdminPage.Error.TermIncorrectText);
             }
             else {
                 Actions.External.Execute = true;
@@ -226,15 +226,15 @@ $("#add-new-admin-btn").click(
                                 if (ResponseObject.ErrorCode == (-8)) {
                                     setInputDanger("add-new-admin-login");
 
-                                    alert("Admin login incorrect (or already exist)!");
+                                    alert(ACJSTexts.AddNewAdminPage.Error.LoginIncorrectText);
                                 }
                                 else if (ResponseObject.ErrorCode == (-12)) {
                                     setInputDanger("add-new-admin-term");
 
-                                    alert("Admin term incorrect!");
+                                    alert(ACJSTexts.AddNewAdminPage.Error.TermIncorrectText);
                                 }
                                 else {
-                                    alert("Failed to add admin! Error code: " + ResponseObject.ErrorCode);
+                                    alert(ACJSTexts.AddNewAdminPage.Error.ServerErrorText.replace("$error_code", ResponseObject.ErrorCode));
                                 }
 
                                 throw new ReferenceError("Error with function 'webAddNewAdmin' (Error code: "+ ResponseObject.ErrorCode +")");
@@ -250,7 +250,7 @@ $("#add-new-admin-btn").click(
                             Admins.NumberOfAdmins++;
 
 
-                            alert("Admin '"+ NewAdminLoadData.Login +"' has been successfully added!")
+                            alert(ACJSTexts.AddNewAdminPage.SuccessfullyText.replace("$admin_login", NewAdminLoadData.Login))
 
                             var adminRow = getAdminsDataTableRow(1, NewAdminLoadData.Login, NewAdminLoadData.Data);
 
@@ -294,7 +294,7 @@ $("#remove-admin-btn, #edit-remove-admin-btn").click(
         if ((Admins.Load == true) && (Actions.External.Execute == false)) {
             var adminLogin = $('input[name="admin-check"]:checked').val();
 
-            if (confirm("Are you sure you want to remove admin: " + adminLogin + " ? This cannot be undone.")) {
+            if (confirm(ACJSTexts.RemoveAdmin.ConfirmText.replace("$admin_login", adminLogin))) {
                 Actions.External.Execute = true;
 
                 $.ajax({
@@ -322,7 +322,7 @@ $("#remove-admin-btn, #edit-remove-admin-btn").click(
                             Admins.NumberOfAdmins--;
 
 
-                            alert("Admin '" + adminLogin + "' has been successfully removed!");
+                            alert(ACJSTexts.RemoveAdmin.SuccessfullyText.replace("$admin_login", adminLogin));
 
                             var adminRow = $("#"+ adminLogin);
 
@@ -439,7 +439,7 @@ $("#edit-edit-admin-btn").click(
             if ((Number.isInteger(adminTerm) == false) || (adminTerm <= 0)) {
                 setInputDanger("edit-admin-term");
 
-                alert("Admin term incorrect!");
+                alert(ACJSTexts.EditAdminPage.Error.TermIncorrectText);
             }
             else {
                 Actions.External.Execute = true;
@@ -464,7 +464,10 @@ $("#edit-edit-admin-btn").click(
                                 if (ResponseObject.ErrorCode == (-5)) {
                                     setInputDanger("edit-admin-term");
 
-                                    alert("Admin term incorrect!");
+                                    alert(ACJSTexts.EditAdminPage.Error.TermIncorrectText);
+                                }
+                                else {
+                                    alert(ACJSTexts.EditAdminPage.Error.ServerErrorText.replace("$error_code", ResponseObject.ErrorCode));
                                 }
 
                                 throw new ReferenceError("Error with function 'webEditAdmin' (Error code: "+ ResponseObject.ErrorCode +")");
@@ -479,7 +482,7 @@ $("#edit-edit-admin-btn").click(
                                 updateAdminData(new Array({Login: Pages.EditAdmin.Login, Data: EditAdmin.Data}));
 
 
-                                alert("Admin '" + Pages.EditAdmin.Login + "' has been successfully edited!");
+                                alert(ACJSTexts.EditAdminPage.SuccessfullyText.replace("$admin_login", Pages.EditAdmin.Login));
 
                                 updateAdminsDataTableRow(Pages.EditAdmin.Login, EditAdmin.Data);
 

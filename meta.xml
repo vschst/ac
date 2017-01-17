@@ -29,6 +29,7 @@
 	<export function="webUpdateRemovedAdmins" http="true" />
 	<export function="webUpdateEditedAdmins" http="true" />
 	<export function="webGetAllowedAdminsACLGroups" http="true" />
+	<export function="webGetTexts" http="true" />
 
 	<settings>
 		<!-- Period of cleaning data of ended admins. In minutes. -->

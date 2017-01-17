@@ -1,0 +1,84 @@
+<Texts>
+    <Text Name="BackLinkText">Back</Text>
+
+    <Group Name="IndexPage">
+        <Text Name="NavTitle">Admins Control</Text>
+        <Text Name="AddNewAdminLinkText">Add new admin</Text>
+
+        <Group Name="AdminsDataTable">
+            <Group Name="Head">
+                <Text Name="LoginText">Login</Text>
+                <Text Name="ACLGroupText">ACL group</Text>
+                <Text Name="IssuedText">Issued</Text>
+                <Text Name="DateOfIssueText">Date of issue</Text>
+                <Text Name="TermText">Term (days)</Text>
+                <Text Name="DateOfRemovalText">Date of removal</Text>
+                <Text Name="BindingToSerialText">Binding to serial</Text>
+                <Text Name="ChooseText">Choose</Text>
+            </Group>
+
+            <Group Name="Foot">
+                <Text Name="NoAdminsText">There are no admins...</Text>
+                <Text Name="ShowMoreAdminsLinkText">Show more admins</Text>
+            </Group>
+        </Group>
+
+        <Group Name="Footer">
+            <Text Name="AdminsShownText">Shown $admins_shown_element / $admins_all_element admins</Text>
+            <Text Name="EditAdminBtnText">Edit</Text>
+            <Text Name="RemoveAdminBtnText">Remove</Text>
+        </Group>
+    </Group>
+
+    <Group Name="AddNewAdminPage">
+        <Text Name="NavTitle">Add new admin</Text>
+
+        <Group Name="Container">
+            <Text Name="LoginText">Admin login:</Text>
+            <Text Name="TermText">Term (days):</Text>
+            <Text Name="ACLGroupText">ACL group:</Text>
+            <Text Name="BindingToSerialText">Binding to serial</Text>
+        </Group>
+
+        <Group Name="Error">
+            <Text Name="LoginEmptyText">Admin login empty!</Text>
+            <Text Name="LoginIncorrectText">Admin login incorrect (or already exist)!</Text>
+            <Text Name="TermIncorrectText">Admin term incorrect!</Text>
+            <Text Name="ServerErrorText">Failed to add admin! Error code: $error_code</Text>
+        </Group>
+
+        <Text Name="AddBtnText">Add</Text>
+
+        <Text Name="SuccessfullyText">Admin '$admin_login' has been successfully added!</Text>
+    </Group>
+
+    <Group Name="EditAdminPage">
+        <Text Name="NavTitle">Edit admin</Text>
+
+        <Group Name="Container">
+            <Text Name="LoginText">Admin login:</Text>
+            <Text Name="NameText">Name:</Text>
+            <Text Name="IssuedText">Issued:</Text>
+            <Text Name="DateOfIssueText">Date of issue:</Text>
+
+            <Text Name="TermText">Term (days):</Text>
+            <Text Name="ACLGroupText">ACL group:</Text>
+            <Text Name="BindingToSerialText">Binding to serial</Text>
+        </Group>
+
+        <Group Name="Error">
+            <Text Name="TermIncorrectText">Admin term incorrect!</Text>
+            <Text Name="ServerErrorText">Failed to edit admin! Error code: $error_code</Text>
+        </Group>
+
+        <Text Name="EditBtnText">Edit</Text>
+        <Text Name="RemoveBtnText">Remove</Text>
+
+        <Text Name="SuccessfullyText">Admin '$admin_login' has been successfully edited!</Text>
+    </Group>
+
+    <Group Name="RemoveAdmin">
+        <Text Name="ConfirmText">Are you sure you want to remove admin: $admin_login ? This cannot be undone.</Text>
+        <Text Name="SuccessfullyText">Admin '$admin_login' has been successfully removed!</Text>
+    </Group>
+</Texts>
