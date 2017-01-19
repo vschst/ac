@@ -2,6 +2,7 @@
 <*
     TextsWeb = {}
     AllowedAdminsACLGroups = {"Moderator", "SuperModerator"}
+    resourceName = getResourceName(getThisResource())
 
     local webGetTexts = call(getThisResource(), "webGetTexts")
 
@@ -28,9 +29,9 @@
     <!-- Font Awesome CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="web/css/ac_main.css" />
+    <link rel="stylesheet" type="text/css" href="/<* = resourceName *>/web/css/ac_main.css" />
 </head>
-<body>
+<body><* = url *>
     <div class="ac-page-content" id="index-page">
         <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
             <h1 class="navbar-brand mb-0"><* = TextsWeb.IndexPage.NavTitle *></h1>
@@ -193,7 +194,7 @@
         </div>
     </div>
 <script type="text/javascript">
-    var resourceName = "<* = getResourceName(getThisResource()) *>";
+    var resourceName = "<* = resourceName *>";
 
     var ACJSTexts = {
         AddNewAdminPage: {
@@ -220,8 +221,8 @@
 </script>
 <!-- jQuery. -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="web/js/ac_update.js"></script>
-<script type="text/javascript" src="web/js/ac_main.js"></script>
-<script type="text/javascript" src="web/js/ac_events.js"></script>
+<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_update.js"></script>
+<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_main.js"></script>
+<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_events.js"></script>
 </body>
 </html>
