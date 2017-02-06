@@ -4,10 +4,10 @@ var UpdateTimers = {Added: null, Removed: null, Edited: null};
 
 function updateAddedAdmins() {
     if ((Actions.Internal.Execute == false) && (Actions.External.Execute == false)) {
-        var maxDateOfIssue = null;
+        var maxDateOfIssue = 0;
 
         for (var adminLogin in Admins.Data) {
-            if ((Admins.Data.hasOwnProperty(adminLogin) == true) && ((maxDateOfIssue == null) || (Admins.Data[adminLogin].DateOfIssue > maxDateOfIssue))) {
+            if ((Admins.Data.hasOwnProperty(adminLogin) == true) && ((maxDateOfIssue == 0) || (Admins.Data[adminLogin].DateOfIssue > maxDateOfIssue))) {
                 maxDateOfIssue = Admins.Data[adminLogin].DateOfIssue;
             }
         }
@@ -26,19 +26,22 @@ function updateAddedAdmins() {
 
                     try {
                         if (ResponseObject == undefined) {
-                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' (Response undefined)");
+                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' (Response object undefined)");
                         }
-                        else if (ResponseObject.ErrorCode == undefined) {
-                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' ('ErrorCode' incorrect)");
+                        else if (ResponseObject.hasOwnProperty("ErrorCode") == false) {
+                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' ('ErrorCode' undefined)");
                         }
                         else if (ResponseObject.ErrorCode != 0) {
                             throw new ReferenceError("Error with function 'webUpdateAddedAdmins' (Error code: "+ ResponseObject.ErrorCode +")");
                         }
-                        else if ((ResponseObject.Response.Data == undefined) || (Array.isArray(ResponseObject.Response.Data) == false)) {
-                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' (Response 'Data' incorrect)");
+                        else if (ResponseObject.hasOwnProperty("Response") == false) {
+                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' ('Response' undefined)");
                         }
-                        else if ((ResponseObject.Response.NumberOfAdmins == undefined) || (Number.isInteger(ResponseObject.Response.NumberOfAdmins) == false)) {
-                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' (Response 'NumberOfAdmins' incorrect)");
+                        else if ((ResponseObject.Response.hasOwnProperty("Data") == false) || (Array.isArray(ResponseObject.Response.Data) == false)) {
+                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' ('Response.Data' incorrect)");
+                        }
+                        else if ((ResponseObject.Response.hasOwnProperty("NumberOfAdmins") == false) || (Number.isInteger(ResponseObject.Response.NumberOfAdmins) == false)) {
+                            throw new SyntaxError("Error with function 'webUpdateAddedAdmins' ('Response.NumberOfAdmins' incorrect)");
                         }
 
                         var AddedAdminsLoadData = ResponseObject.Response.Data;
@@ -59,7 +62,7 @@ function updateAddedAdmins() {
 
                             adminRow.nextAll().each(
                                 function(i) {
-                                    $(this).find(".row-number").text(AddedAdminsLoadData.length + i);
+                                    $(this).find(".row-number").text(AddedAdminsLoadData.length + i + 1);
                                 }
                             );
 
@@ -109,39 +112,33 @@ function updateRemovedAdmins() {
 
                     try {
                         if (ResponseObject == undefined) {
-                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' (Response undefined)");
+                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' (Response object undefined)");
                         }
-                        else if (ResponseObject.ErrorCode == undefined) {
-                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' ('ErrorCode' incorrect)");
+                        else if (ResponseObject.hasOwnProperty("ErrorCode") == false) {
+                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' ('ErrorCode' undefined)");
                         }
                         if (ResponseObject.ErrorCode != 0) {
                             throw new ReferenceError("Error with function 'webUpdateRemovedAdmins' (Error code: "+ ResponseObject.ErrorCode +")");
                         }
-                        else if ((ResponseObject.Response == undefined) || (Array.isArray(ResponseObject.Response) == false)) {
-                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' (Response incorrect)");
+                        else if ((ResponseObject.hasOwnProperty("Response") == false) || (Array.isArray(ResponseObject.Response) == false)) {
+                            throw new SyntaxError("Error with function 'webUpdateRemovedAdmins' ('Response' incorrect)");
                         }
 
                         var RemovedAdminsLoginData = ResponseObject.Response;
 
-                        removeAdminData(RemovedAdminsLoginData);
+                        removeAdminsData(RemovedAdminsLoginData);
 
                         Admins.NumberOfAdmins = (Admins.NumberOfAdmins - RemovedAdminsLoginData.length);
 
 
-                        for (var raldKey = 0; raldKey < RemovedAdminsLoginData.length; raldKey++) {
-                            $("#"+ RemovedAdminsLoginData[raldKey]).fadeOut("slow",
-                                function() {
-                                    var adminRowNumber = parseInt($(this).find(".row-number").text());
+                        var lastRemovedRow = false;
 
-                                    $(this).nextAll().each(
-                                        function(i) {
-                                            $(this).find(".row-number").text(adminRowNumber + i);
-                                        }
-                                     );
+                        for (var raldKey in RemovedAdminsLoginData) {
+                            if (raldKey == (RemovedAdminsLoginData.length - 1)) {
+                                lastRemovedRow = true;
+                            }
 
-                                    $(this).remove();
-                                }
-                            );
+                            removeAdminsDataTableRow(RemovedAdminsLoginData[raldKey], lastRemovedRow);
                         }
 
 
@@ -189,25 +186,25 @@ function updateEditedAdmins() {
 
                 try {
                     if (ResponseObject == undefined) {
-                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' (Response undefined)");
+                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' (Response object undefined)");
                     }
-                    else if (ResponseObject.ErrorCode == undefined) {
-                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' ('ErrorCode' incorrect)");
+                    else if (ResponseObject.hasOwnProperty("ErrorCode") == false) {
+                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' ('ErrorCode' undefined)");
                     }
                     if (ResponseObject.ErrorCode != 0) {
                         throw new ReferenceError("Error with function 'webUpdateEditedAdmins' (Error code: "+ ResponseObject.ErrorCode +")");
                     }
-                    else if ((ResponseObject.Response == undefined) || (Array.isArray(ResponseObject.Response) == false)) {
-                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' (Response incorrect)");
+                    else if ((ResponseObject.hasOwnProperty("Response") == false) || (Array.isArray(ResponseObject.Response) == false)) {
+                        throw new SyntaxError("Error with function 'webUpdateEditedAdmins' ('Response' incorrect)");
                     }
 
-                    var EditedAdminsData = ResponseObject.Response;
+                    var ChangedAdminsData = ResponseObject.Response;
 
-                    updateAdminData(EditedAdminsData);
+                    editAdminsData(ChangedAdminsData);
 
 
-                    for (var eadKey = 0; eadKey < EditedAdminsData.length; eadKey++) {
-                        updateAdminsDataTableRow(EditedAdminsData[eadKey].Login, EditedAdminsData[eadKey].Data);
+                    for (var cbdKey in ChangedAdminsData) {
+                        editAdminsDataTableRow(ChangedAdminsData[cbdKey].Login, ChangedAdminsData[cbdKey].Data);
                     }
                 }
                 catch (e) {

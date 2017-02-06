@@ -20,6 +20,9 @@
     background-color: #f0f0f0;
     overflow: auto;
 }
+.ac-thead-text-center thead th {
+    text-align: center;
+}
 .ac-adminsdata-footer {
     position: absolute;
     bottom: 0px;

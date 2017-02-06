@@ -1,6 +1,7 @@
 ACSettings = {}
 AdminsData = {}
 TextsServer = {}
+TextsWeb = {}
 
 ACServerLoad = false
 
@@ -132,13 +133,21 @@ addEventHandler("onPlayerQuit", getRootElement(),
                 ACLoadedPlayers[source] = nil
             end
 
-            local playerAccount = getPlayerAccount(source)
+            try {
+                function()
+                    local playerAccount = getPlayerAccount(source)
 
-            if (playerAccount ~= false) then
-                if (isGuestAccount(playerAccount) == false) then
-                    local playerLogin = getAccountName(playerAccount)
+                    if (playerAccount == false) then
+                        error((-1))
+                    end
 
-                    if (playerLogin ~= false) then
+                    if (isGuestAccount(playerAccount) == false) then
+                        local playerLogin = getAccountName(playerAccount)
+
+                        if (playerLogin == false) then
+                            error((-2))
+                        end
+
                         if ((AdminsData[playerLogin] ~= nil) and (AdminsData[playerLogin].Name ~= nil)) then
                             AdminsData[playerLogin].CurrentUse = true
 
@@ -148,13 +157,15 @@ addEventHandler("onPlayerQuit", getRootElement(),
                                 end
                             end
                         end
-                    else
-                        triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerQuit"}, (-2))
                     end
-                end
-            else
-                triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerQuit"}, (-1))
-            end
+                end,
+
+                catch {
+                    function(EventErrorCode)
+                        triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerQuit"}, EventErrorCode)
+                    end
+                }
+            }
         end
     end
 )
@@ -163,29 +174,35 @@ addEventHandler("onPlayerQuit", getRootElement(),
 addEventHandler("onPlayerLogin", getRootElement(),
     function (thePreviousAccount, theCurrentAccount)
         if (ACServerLoad == true) then
-            local playerLogin = getAccountName(theCurrentAccount)
+            try {
+                function()
+                    local playerLogin = getAccountName(theCurrentAccount)
 
-            local playerIP = getPlayerIP(source)
+                    local playerIP = getPlayerIP(source)
 
-            local playerSerial = getPlayerSerial(source)
+                    local playerSerial = getPlayerSerial(source)
 
-            local playerName = getPlayerName(source)
+                    local playerName = getPlayerName(source)
 
-            if ((playerLogin ~= false) and (playerIP ~= false) and (playerSerial ~= false) and (playerName ~= false)) then
-                if (AdminsData[playerLogin] ~= nil) then
-                    if ((AdminsData[playerLogin].BindingToSerial == true) and (AdminsData[playerLogin].Serial ~= nil) and (AdminsData[playerLogin].Serial ~= playerSerial)) then
-                        kickPlayer(source, TextsServer.LoginOfForeignAdminAccount)
-                    else
-                        local addNewAdminsListDataOnClient = false
+                    if ((playerLogin == false) or (playerIP == false) or (playerSerial == false) or (playerName == false)) then
+                        error({Source = {Type = "event", Name = "onPlayerLogin"}, Code = (-1)})
+                    end
 
-                        if (AdminsData[playerLogin].Name == nil) then
-                            addNewAdminsListDataOnClient = true
-                        end
+                    if (AdminsData[playerLogin] ~= nil) then
+                        if ((AdminsData[playerLogin].BindingToSerial == true) and (AdminsData[playerLogin].Serial ~= nil) and (AdminsData[playerLogin].Serial ~= playerSerial)) then
+                            kickPlayer(source, TextsServer.LoginOfForeignAdminAccount)
+                        else
+                            local addNewAdminsListDataOnClient = false
 
-                        local updateAdminDataStatus, updateAdminDataResult = pcall(updateAdminData, playerLogin, {IP = playerIP, Serial = playerSerial, Name = playerName})
+                            if (AdminsData[playerLogin].Name == nil) then
+                                addNewAdminsListDataOnClient = true
+                            end
 
-                        if (updateAdminDataStatus == true) then
-                            AdminsData[playerLogin].CurrentUse = true
+                            local updateAdminDataStatus, updateAdminDataResult = pcall(updateAdminData, playerLogin, {IP = playerIP, Serial = playerSerial, Name = playerName})
+
+                            if (updateAdminDataStatus == false) then
+                                error({Source = {Type = "function", Name = updateAdminDataResult.Source}, Code = updateAdminDataResult.Code})
+                            end
 
                             if (addNewAdminsListDataOnClient == true) then
                                 local NewAdminsListDataClient = {
@@ -218,14 +235,16 @@ addEventHandler("onPlayerLogin", getRootElement(),
                             if ((adminDateOfRemoval - realTime.timestamp) < 43200) then
                                 triggerClientEvent(source, "WarningAboutDeadlineOfAdmin", source)
                             end
-                        else
-                            triggerEvent("ACErrorOutput", source, {Type = "function", Name = updateAdminDataResult.Source}, updateAdminDataResult.Code)
                         end
                     end
-                end
-            else
-                triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerLogin"}, (-1))
-            end
+                end,
+
+                catch {
+                    function(EventError)
+                        triggerEvent("ACErrorOutput", source, {Type = EventError.Source.Type, Name = EventError.Source.Name}, EventError.Code)
+                    end
+                }
+            }
         end
     end
 )
@@ -259,13 +278,21 @@ addEventHandler("onPlayerLogout", getRootElement(),
 addEventHandler("onPlayerChangeNick", getRootElement(),
     function (oldNick, newNick)
         if (ACServerLoad == true) then
-            local playerAccount = getPlayerAccount(source)
+            try {
+                function()
+                    local playerAccount = getPlayerAccount(source)
 
-            if (playerAccount ~= false) then
-                if (isGuestAccount(playerAccount) == false) then
-                    local playerLogin = getAccountName(playerAccount)
+                    if (playerAccount == false) then
+                        error({Source = {Type = "event", Name = "onPlayerChangeNick"}, Code = (-1)})
+                    end
 
-                    if (playerLogin ~= false) then
+                    if (isGuestAccount(playerAccount) == false) then
+                        local playerLogin = getAccountName(playerAccount)
+
+                        if (playerLogin == false) then
+                            error({Source = {Type = "event", Name = "onPlayerChangeNick"}, Code = (-2)})
+                        end
+
                         if (AdminsData[playerLogin] ~= nil) then
                             local addNewAdminsListDataOnClient = false
 
@@ -275,43 +302,45 @@ addEventHandler("onPlayerChangeNick", getRootElement(),
 
                             local updateAdminDataStatus, updateAdminDataResult = pcall(updateAdminData, playerLogin, {Name = newNick})
 
-                            if (updateAdminDataStatus == true) then
-                                if (addNewAdminsListDataOnClient == true) then
-                                    AdminsData[playerLogin].CurrentUse = true
+                            if (updateAdminDataStatus == false) then
+                                error({Source = {Type = "function", Name = updateAdminDataResult.Source}, Code = updateAdminDataResult.Code})
+                            end
 
-                                    local NewAdminsListDataClient = {
-                                        Name = AdminsData[playerLogin].Name,
+                            if (addNewAdminsListDataOnClient == true) then
+                                AdminsData[playerLogin].CurrentUse = true
 
-                                        ACLGroup = AdminsData[playerLogin].ACLGroup,
+                                local NewAdminsListDataClient = {
+                                    Name = AdminsData[playerLogin].Name,
 
-                                        DateOfRemoval = (AdminsData[playerLogin].DateOfIssue + (AdminsData[playerLogin].Term * 86400)),
+                                    ACLGroup = AdminsData[playerLogin].ACLGroup,
 
-                                        CurrentUse = AdminsData[playerLogin].CurrentUse
-                                    }
+                                    DateOfRemoval = (AdminsData[playerLogin].DateOfIssue + (AdminsData[playerLogin].Term * 86400)),
 
-                                    for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
-                                        if (aclpValue == 2) then
-                                            triggerClientEvent(aclpKey, "AddNewAdminsListData", aclpKey, md5(playerLogin), NewAdminsListDataClient)
-                                        end
-                                    end
-                                else
-                                    for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
-                                        if (aclpValue == 2) then
-                                            triggerClientEvent(aclpKey, "UpdateAdminsListData", aclpKey, md5(playerLogin), {Name = AdminsData[playerLogin].Name})
-                                        end
+                                    CurrentUse = AdminsData[playerLogin].CurrentUse
+                                }
+
+                                for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
+                                    if (aclpValue == 2) then
+                                        triggerClientEvent(aclpKey, "AddNewAdminsListData", aclpKey, md5(playerLogin), NewAdminsListDataClient)
                                     end
                                 end
                             else
-                                triggerEvent("ACErrorOutput", source, {Type = "function", Name = updateAdminDataResult.Source}, updateAdminDataResult.Code)
+                                for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
+                                    if (aclpValue == 2) then
+                                        triggerClientEvent(aclpKey, "UpdateAdminsListData", aclpKey, md5(playerLogin), {Name = AdminsData[playerLogin].Name})
+                                    end
+                                end
                             end
                         end
-                    else
-                        triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerChangeNick"}, (-2))
                     end
-                end
-            else
-                triggerEvent("ACErrorOutput", source, {Type = "event", Name = "onPlayerChangeNick"}, (-1))
-            end
+                end,
+
+                catch {
+                    function(EventError)
+                        triggerEvent("ACErrorOutput", source, {Type = EventError.Source.Type, Name = EventError.Source.Name}, EventError.Code)
+                    end
+                }
+            }
         end
     end
 )
@@ -547,7 +576,7 @@ end
 
 
 function updateAdminData(adminLogin, UpdatedData)
-    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0 }
+    local ErrorData = {Source = debug.getinfo(1, "n").name, Code = 0}
 
     local AdminsDataXMLFile = xmlLoadFile("data/admins_data.xml")
 

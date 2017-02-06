@@ -70,11 +70,19 @@ function removeAdmin(adminLogin)
 end
 
 
-function updateAdmin(adminLogin, UpdatedData)
+function editAdmin(adminLogin, EditedAdminData)
     local ErrorCode = 0
 
     if (ACServerLoad == true) then
-        if ((adminLogin ~= nil) and (AdminsData[adminLogin] ~= nil)) then
+        if ((adminLogin == nil) or (EditedAdminData == nil)) then
+            ErrorCode = (-2)
+        elseif (AdminsData[adminLogin] == nil) then
+            ErrorCode = (-3)
+        elseif ((EditedAdminData.Term ~= nil) and (EditedAdminData.Term <= 0)) then
+            ErrorCode = (-4)
+        elseif ((EditedAdminData.ACLGroup ~= nil) and (isACLGroupAllowed(EditedAdminData.ACLGroup) == false)) then
+            ErrorCode = (-5)
+        else
             local updateAdminsListDataOnClient = false
 
             if (AdminsData[adminLogin].Name ~= nil) then
@@ -83,13 +91,13 @@ function updateAdmin(adminLogin, UpdatedData)
 
             local lastAdminACLGroup = AdminsData[adminLogin].ACLGroup
 
-            local updateAdminDataStatus, updateAdminDataResult = pcall(updateAdminData, adminLogin, UpdatedData)
+            local updateAdminDataStatus, updateAdminDataResult = pcall(updateAdminData, adminLogin, EditedAdminData)
 
             if (updateAdminDataStatus == true) then
-                if (UpdatedData.ACLGroup ~= nil) then
+                if (EditedAdminData.ACLGroup ~= nil) then
                     aclGroupRemoveObject(aclGetGroup(lastAdminACLGroup), "user."..adminLogin)
 
-                    aclGroupAddObject(aclGetGroup(UpdatedData.ACLGroup), "user."..adminLogin)
+                    aclGroupAddObject(aclGetGroup(EditedAdminData.ACLGroup), "user."..adminLogin)
                 end
 
                 if (updateAdminsListDataOnClient == true) then
@@ -116,10 +124,8 @@ function updateAdmin(adminLogin, UpdatedData)
             else
                 triggerEvent("ACErrorOutput", root,  {Type = "function", Name = updateAdminDataResult.Source}, updateAdminDataResult.Code)
 
-                ErrorCode = (-3)
+                ErrorCode = (-6)
             end
-        else
-            ErrorCode = (-2)
         end
     else
         ErrorCode = (-1)

@@ -3,26 +3,27 @@
 var Admins = {Load: false, Data: {}, Length: 0, NumberOfAdmins: 0};
 
 var Pages = {
-                Index: {
-                    Selected: true
-                },
-                AddNewAdmin: {
-                    Selected: false
-                },
-                EditAdmin: {
-                    Selected: false,
-                    Login: null}
-            };
+    Index: {
+        Selected: true
+    },
+    AddNewAdmin: {
+        Selected: false
+    },
+    EditAdmin: {
+        Selected: false,
+        Login: null
+    }
+};
 
 var Actions = {Internal: {Execute: false}, External: {Execute: false}}
 
 
 function loadAdminsData(LoadData) {
-    for (var ldKey = 0; ldKey < LoadData.length; ldKey++) {
-        if (LoadData[ldKey].Login == undefined) {
+    for (var ldKey in LoadData) {
+        if (LoadData[ldKey].hasOwnProperty("Login") == false) {
             throw new SyntaxError("Error with function 'loadAdminsData' (Key: "+ ldKey +", Login undefined)");
         }
-        else if (LoadData[ldKey].Data == undefined) {
+        else if (LoadData[ldKey].hasOwnProperty("Data") == false) {
             throw new SyntaxError("Error with function 'loadAdminsData' (Key: "+ ldKey +", Data undefined)");
         }
 
@@ -40,9 +41,9 @@ function loadAdminsData(LoadData) {
 }
 
 
-function removeAdminData(LoginsData) {
-    for (var ldKey = 0; ldKey < LoginsData.length; ldKey++) {
-        if (Admins.Data[LoginsData[ldKey]] != undefined) {
+function removeAdminsData(LoginsData) {
+    for (var ldKey in LoginsData) {
+        if (Admins.Data.hasOwnProperty(LoginsData[ldKey]) == true) {
             delete Admins.Data[LoginsData[ldKey]];
 
             Admins.Length--;
@@ -54,55 +55,65 @@ function removeAdminData(LoginsData) {
 }
 
 
-function updateAdminData(UpdatedData) {
-    for (var udKey = 0; udKey < UpdatedData.length; udKey++) {
-        if (UpdatedData[udKey].Login == undefined) {
-            throw new SyntaxError("Error with function 'updateAdminData' (Key: "+ udKey +", Login undefined)");
+function editAdminsData(ChangedAdminsData) {
+    var adminLogin;
+
+    for (var cbdKey in ChangedAdminsData) {
+        if (ChangedAdminsData[cbdKey].hasOwnProperty("Login") == false) {
+            throw new SyntaxError("Error with function 'updateAdminData' (Key: "+ cbdKey +", Login undefined)");
         }
-        else if (UpdatedData[udKey].Data == undefined) {
-            throw new SyntaxError("Error with function 'updateAdminData' (Key: "+ udKey +", Data undefined)");
+        else if (ChangedAdminsData[cbdKey].hasOwnProperty("Data") == false) {
+            throw new SyntaxError("Error with function 'updateAdminData' (Key: "+ cbdKey +", Data undefined)");
         }
 
-        if (UpdatedData[udKey].Login != undefined) {
-            if (UpdatedData[udKey].Data.Term != undefined) {
-                Admins.Data[UpdatedData[udKey].Login].Term = UpdatedData[udKey].Data.Term;
+        adminLogin = ChangedAdminsData[cbdKey].Login;
+
+        if (Admins.Data.hasOwnProperty(adminLogin) == true) {
+            if (ChangedAdminsData[cbdKey].Data.hasOwnProperty('Term') == true) {
+                Admins.Data[adminLogin].Term = ChangedAdminsData[cbdKey].Data.Term;
             }
 
-            if (UpdatedData[udKey].Data.ACLGroup != undefined) {
-                Admins.Data[UpdatedData[udKey].Login].ACLGroup = UpdatedData[udKey].Data.ACLGroup;
+            if (ChangedAdminsData[cbdKey].Data.hasOwnProperty('ACLGroup') == true) {
+                Admins.Data[adminLogin].ACLGroup = ChangedAdminsData[cbdKey].Data.ACLGroup;
             }
 
-            if (UpdatedData[udKey].Data.BindingToSerial != undefined) {
-                Admins.Data[UpdatedData[udKey].Login].BindingToSerial = UpdatedData[udKey].Data.BindingToSerial;
+            if (ChangedAdminsData[cbdKey].Data.hasOwnProperty('BindingToSerial') == true) {
+                Admins.Data[adminLogin].BindingToSerial = ChangedAdminsData[cbdKey].Data.BindingToSerial;
             }
 
-            if (UpdatedData[udKey].Data.Name != undefined) {
-                Admins.Data[UpdatedData[udKey].Login].Name = UpdatedData[udKey].Data.Name;
+            if (ChangedAdminsData[cbdKey].Data.hasOwnProperty('Name') == true) {
+                Admins.Data[adminLogin].Name = ChangedAdminsData[cbdKey].Data.Name;
             }
         }
         else {
-            throw new SyntaxError("Error with function 'updateAdminData' (Login '"+ UpdatedData[adminLogin].Login +"' undefined)");
+            throw new SyntaxError("Error with function 'updateAdminData' (Login '"+ ChangedAdminsData[adminLogin].Login +"' undefined)");
         }
     }
 }
 
 
 function checkAdminData(AdminData) {
-    if (AdminData.ACLGroup == undefined) {
-        throw new SyntaxError("ACLGroup undefined");
+    if (AdminData.hasOwnProperty("ACLGroup") == false) {
+        throw new SyntaxError("'ACLGroup' undefined");
     }
-    else if (AdminData.Issued == undefined) {
-        throw new SyntaxError("Issued undefined");
+    else if (AdminData.hasOwnProperty("Issued") == false) {
+        throw new SyntaxError("'Issued' undefined");
     }
-    else if (AdminData.DateOfIssue == undefined) {
-        throw new SyntaxError("DateOfIssue undefined");
+    else if (AdminData.hasOwnProperty("DateOfIssue") == false) {
+        throw new SyntaxError("'DateOfIssue' undefined");
     }
-    else if (AdminData.Term == undefined) {
-        throw new SyntaxError("Term undefined");
+    else if (AdminData.hasOwnProperty("Term") == false) {
+        throw new SyntaxError("'Term' undefined");
     }
-    else if (AdminData.BindingToSerial == undefined) {
-        throw new SyntaxError("BindingToSerial undefined");
+    else if (AdminData.hasOwnProperty("BindingToSerial") == false) {
+        throw new SyntaxError("'BindingToSerial' undefined");
     }
+}
+
+
+function updateShownAdminsText() {
+    $("#admins-shown").text(Admins.Length);
+    $("#admins-all").text(Admins.NumberOfAdmins);
 }
 
 
@@ -123,7 +134,7 @@ function getAdminsDataTableRow(rowNumber, adminLogin, AdminData) {
     RowTR.append($('<td class="row-number"></td>').text(rowNumber));
 
     //Login
-    RowTR.append($('<td class="admin-login"></td>').html($("<b>").text(adminLogin)));
+    RowTR.append($('<td class="admin-login"></td>').html($("<b></b>").text(adminLogin)));
 
     //ACL Group
     RowTR.append($('<td class="admin-acl-group"></td>').text(AdminData.ACLGroup));
@@ -132,13 +143,17 @@ function getAdminsDataTableRow(rowNumber, adminLogin, AdminData) {
     RowTR.append($('<td></td>').text(AdminData.Issued));
 
     //Date of issue
-    RowTR.append($('<td></td>').text(formatDate(AdminData.DateOfIssue * 1000)));
+    var adminDateOfIssue = moment.unix(AdminData.DateOfIssue);
+
+    RowTR.append($('<td></td>').text(adminDateOfIssue.format("DD/MM/YYYY hh:mm")));
 
     //Term
     RowTR.append($('<td class="admin-term"></td>').text(AdminData.Term));
 
     //Date of removal
-    RowTR.append($('<td class="admin-date-of-removal"></td>').text(formatDate((AdminData.DateOfIssue + (AdminData.Term * 86400)) * 1000)));
+    var adminDateOfRemoval = moment.unix(AdminData.DateOfIssue + (AdminData.Term * 86400));
+
+    RowTR.append($('<td class="admin-date-of-removal"></td>').text(adminDateOfRemoval.format("DD/MM/YYYY hh:mm")));
 
     //Binding to serial
     var bindingToSerialElement = $('<td class="admin-binding-to-serial"></td>');
@@ -151,7 +166,7 @@ function getAdminsDataTableRow(rowNumber, adminLogin, AdminData) {
     }
 
     //Choose
-    var chooseElement = $('<label class="form-check-label"><input name="admin-check" value="'+ adminLogin +'" type="radio" class="form-check-input"></label>');
+    var chooseElement = $('<input name="admin-check" value="'+ adminLogin +'" type="radio" class="form-check-input">');
 
     chooseElement.on("change",
         function(event) {
@@ -162,39 +177,59 @@ function getAdminsDataTableRow(rowNumber, adminLogin, AdminData) {
         }
     );
 
-    RowTR.append($('<td></td>').html(chooseElement));
+    RowTR.append($('<td><label class="form-check-label"></label></td>').html(chooseElement));
 
     return RowTR;
 }
 
 
-function updateAdminsDataTableRow(adminLogin, UpdateData) {
+function removeAdminsDataTableRow(adminLogin, lastRemovedRow) {
+    var banRow = $("#"+ adminLogin);
+
+    banRow.find('input[name="admin-check"]').off("change");
+
+    if (lastRemovedRow == false) {
+        banRow.fadeOut("slow",
+            function() {
+                $(this).remove();
+            }
+        );
+    }
+    else {
+        banRow.fadeOut("slow",
+            function() {
+                $(this).remove();
+
+                updateAdminsRowNumbers();
+            }
+        );
+    }
+}
+
+
+function editAdminsDataTableRow(adminLogin, ChangedAdminData) {
     var adminRow = $("#"+ adminLogin);
 
-    if (UpdateData.Term != undefined) {
-        adminRow.find(".admin-term").text(UpdateData.Term);
+    if (ChangedAdminData.hasOwnProperty("Term") == true) {
+        adminRow.find(".admin-term").text(ChangedAdminData.Term);
 
-        adminRow.find(".admin-date-of-removal").text(formatDate((Admins.Data[adminLogin].DateOfIssue + (UpdateData.Term * 86400)) * 1000));
+        var adminDateOfRemoval = moment.unix(Admins.Data[adminLogin].DateOfIssue + (ChangedAdminData.Term * 86400));
+
+        adminRow.find(".admin-date-of-removal").text(adminDateOfRemoval.format("DD/MM/YYYY hh:mm"));
     }
 
-    if (UpdateData.ACLGroup != undefined) {
-        adminRow.find(".admin-acl-group").text(UpdateData.ACLGroup);
+    if (ChangedAdminData.hasOwnProperty("ACLGroup") == true) {
+        adminRow.find(".admin-acl-group").text(ChangedAdminData.ACLGroup);
     }
 
-    if (UpdateData.BindingToSerial != undefined) {
-        if (UpdateData.BindingToSerial == true) {
+    if (ChangedAdminData.hasOwnProperty("BindingToSerial") == true) {
+        if (ChangedAdminData.BindingToSerial == true) {
             adminRow.find(".admin-binding-to-serial").html(getCheckElement());
         }
         else {
             adminRow.find(".admin-binding-to-serial").html(getTimesElement());
         }
     }
-}
-
-
-function updateShownAdminsText() {
-    $("#admins-shown").text(Admins.Length);
-    $("#admins-all").text(Admins.NumberOfAdmins);
 }
 
 
@@ -211,6 +246,15 @@ function removeInputDanger(inputID) {
 
     selector.parent().removeClass("has-danger");
     selector.removeClass("form-control-danger");
+}
+
+
+function updateAdminsRowNumbers() {
+    $("#adminsdata-table-rows").find("tr").each(
+        function(i) {
+            $(this).find(".row-number").text(i + 1);
+        }
+    );
 }
 
 
@@ -272,25 +316,4 @@ function hexToHtml(str) {
     }
 
     return result;
-}
-
-
-function formatDate(timestamp) {
-	var date = new Date(timestamp)
-
-	var dd = date.getDate();
-	if (dd < 10) dd = '0' + dd;
-
-	var mm = date.getMonth() + 1;
-	if (mm < 10) mm = '0' + mm;
-
-	var yy = date.getFullYear();
-
-	var hh = date.getHours();
-	if (hh < 10) hh = '0' + hh;
-
-	var mmin = date.getMinutes();
-	if (mmin < 10) mmin = '0' + mmin;
-
-	return dd + '/' + mm + '/' + yy + ' ' + hh + ':' + mmin;
 }

@@ -31,7 +31,7 @@
 
     <link rel="stylesheet" type="text/css" href="/<* = resourceName *>/web/css/ac_main.css" />
 </head>
-<body><* = url *>
+<body>
     <div class="ac-page-content" id="index-page">
         <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
             <h1 class="navbar-brand mb-0"><* = TextsWeb.IndexPage.NavTitle *></h1>
@@ -42,7 +42,7 @@
 
         <div class="ac-page-container">
             <div class="ac-adminsdata-container">
-                <table class="table table-striped table-bordered table-hover" id="adminsdata-table">
+                <table class="table table-striped table-bordered table-hover ac-thead-text-center" id="adminsdata-table">
                     <thead class="thead-default">
                         <tr>
                             <th>#</th>
@@ -74,8 +74,8 @@
                     <span class="text-muted"><* = TextsWeb.IndexPage.Footer.AdminsShownText *></span>
 
                     <form class="form-inline float-xs-right">
-                        <button type="button" class="btn btn-outline-primary" id="edit-admin-btn" disabled>Edit</button>
-                        <button type="button" class="btn btn-outline-danger" id="remove-admin-btn" disabled>Remove</button>
+                        <button type="button" class="btn btn-outline-primary" id="edit-admin-btn" disabled><* = TextsWeb.IndexPage.Footer.EditAdminBtnText *></button>
+                        <button type="button" class="btn btn-outline-danger" id="remove-admin-btn" disabled><* = TextsWeb.IndexPage.Footer.RemoveAdminBtnText *></button>
                     </form>
                 </div>
             </footer>
@@ -86,7 +86,7 @@
         <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
             <h1 class="navbar-brand mb-0"><* = TextsWeb.AddNewAdminPage.NavTitle *></h1>
             <form class="form-inline float-xs-right">
-                <button type="button" class="btn btn-outline-secondary" id="add-new-admin-back-link">Back</button>
+                <button type="button" class="btn btn-outline-secondary" id="add-new-admin-back-link"><* = TextsWeb.BackLinkText *></button>
             </form>
         </nav>
 
@@ -136,7 +136,7 @@
         <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
             <h1 class="navbar-brand mb-0"><* = TextsWeb.EditAdminPage.NavTitle *></h1>
             <form class="form-inline float-xs-right">
-                <button type="button" class="btn btn-outline-secondary" id="edit-admin-back-link">Back</button>
+                <button type="button" class="btn btn-outline-secondary" id="edit-admin-back-link"><* = TextsWeb.BackLinkText *></button>
             </form>
         </nav>
 
@@ -219,10 +219,12 @@
         }
     };
 </script>
-<!-- jQuery. -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_update.js"></script>
-<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_main.js"></script>
-<script type="text/javascript" src="/<* = resourceName *>/web/js/ac_events.js"></script>
+    <!-- jQuery. -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+    <script type="text/javascript" src="/<* = resourceName *>/web/js/ac_update.js"></script>
+    <script type="text/javascript" src="/<* = resourceName *>/web/js/ac_main.js"></script>
+    <script type="text/javascript" src="/<* = resourceName *>/web/js/ac_events.js"></script>
 </body>
 </html>

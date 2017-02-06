@@ -121,14 +121,16 @@ function webAddNewAdmin(adminLogin, adminACLGroup, adminTerm, adminBindingToSeri
         userLogin = getAccountName(user)
 
         if (userLogin ~= false) then
-            if (adminACLGroup == nil) then
+            if (adminLogin == nil) then
                 returnTable.ErrorCode = (-3)
             elseif (adminACLGroup == nil) then
                 returnTable.ErrorCode = (-4)
-            elseif (adminTerm == nil) then
+            elseif (adminACLGroup == nil) then
                 returnTable.ErrorCode = (-5)
-            elseif (adminBindingToSerial == nil) then
+            elseif (adminTerm == nil) then
                 returnTable.ErrorCode = (-6)
+            elseif (adminBindingToSerial == nil) then
+                returnTable.ErrorCode = (-7)
             else
                 local realTime = getRealTime();
 
@@ -149,7 +151,7 @@ function webAddNewAdmin(adminLogin, adminACLGroup, adminTerm, adminBindingToSeri
                 if (addNewAdminStatus == 0) then
                     returnTable.Response = {Login = adminLogin, Data = webGetAdminData(adminLogin)}
                 else
-                    returnTable.ErrorCode = ((-6) + addNewAdminStatus)
+                    returnTable.ErrorCode = ((-7) + addNewAdminStatus)
                 end
             end
         else
@@ -173,7 +175,7 @@ function webRemoveAdmin(adminLogin)
             local removeAdminStatus = removeAdmin(adminLogin)
 
             if (removeAdminStatus ~= 0) then
-                returnTable.ErrorCode = ((-3) + removeAdminStatus)
+                returnTable.ErrorCode = ((-2) + removeAdminStatus)
             end
         else
             returnTable.ErrorCode = (-2)
@@ -197,42 +199,36 @@ function webEditAdmin(adminLogin, adminTerm, adminACLGroup, adminBindingToSerial
         if (userLogin ~= false) then
             if ((adminLogin == nil) or (AdminsData[adminLogin] == nil)) then
                 returnTable.ErrorCode = (-3)
-            elseif ((adminTerm == nil) or (adminTerm <= 0)) then
+            elseif (adminTerm == nil) then
                 returnTable.ErrorCode = (-4)
-            elseif ((adminACLGroup == nil) or (isACLGroupAllowed(adminACLGroup) == false)) then
+            elseif (adminACLGroup == nil) then
                 returnTable.ErrorCode = (-5)
             elseif (adminBindingToSerial == nil) then
                 returnTable.ErrorCode = (-6)
             else
-                local EditAdmin = {Modified = false, Data = {}}
+                adminTerm = tonumber(adminTerm)
+
+                local ChangedAdminData = {}
 
                 if (AdminsData[adminLogin].Term ~= adminTerm) then
-                    EditAdmin.Data.Term = adminTerm
-
-                    EditAdmin.Modified = true
+                    ChangedAdminData.Term = adminTerm
                 end
 
                 if (AdminsData[adminLogin].ACLGroup ~= adminACLGroup) then
-                    EditAdmin.Data.ACLGroup = adminACLGroup
-
-                    EditAdmin.Modified = true
+                    ChangedAdminData.ACLGroup = adminACLGroup
                 end
 
                 if (AdminsData[adminLogin].BindingToSerial ~= adminBindingToSerial) then
-                    EditAdmin.Data.BindingToSerial = adminBindingToSerial
-
-                    EditAdmin.Modified = true
+                    ChangedAdminData.BindingToSerial = adminBindingToSerial
                 end
 
-                if (EditAdmin.Modified == true) then
-                    local updateAdminStatus = updateAdmin(adminLogin, EditAdmin.Data)
+                local editAdminStatus = editAdmin(adminLogin, ChangedAdminData)
 
-                    if (updateAdminStatus ~= 0) then
-                        returnTable.ErrorCode = ((-7) + updateAdminStatus)
-                    end
+                if (editAdminStatus ~= 0) then
+                    returnTable.ErrorCode = ((-6) + editAdminStatus)
                 end
 
-                returnTable.Response = EditAdmin
+                returnTable.Response = ChangedAdminData
             end
         else
             returnTable.ErrorCode = (-2)
@@ -252,6 +248,8 @@ function webUpdateAddedAdmins(maxDateOfIssue)
 
     if (ACServerLoad == true) then
         if (maxDateOfIssue ~= nil) then
+            maxDateOfIssue = tonumber(maxDateOfIssue)
+
             local WebAdminsData = {}
 
             local numberOfAdmins = 0
@@ -264,13 +262,11 @@ function webUpdateAddedAdmins(maxDateOfIssue)
                 numberOfAdmins = numberOfAdmins + 1
             end
 
-            if (numberOfAdmins > 0) then
-                table.sort(WebAdminsData,
-                    function(a, b)
-                        return (a.Data.DateOfIssue >  b.Data.DateOfIssue)
-                    end
-                )
-            end
+            table.sort(WebAdminsData,
+                function(a, b)
+                    return (a.Data.DateOfIssue >  b.Data.DateOfIssue)
+                end
+            )
 
             returnTable.Response = {Data = WebAdminsData, NumberOfAdmins = numberOfAdmins}
         else
@@ -318,43 +314,50 @@ function webUpdateEditedAdmins(LastAdminsData)
 
     if (ACServerLoad == true) then
         if (LastAdminsData ~= nil) then
-            local EditedAdminsData = {}
+            local ChangedAdminsData = {}
 
             for ladKey, ladValue in pairs(LastAdminsData) do
-                if (AdminsData[ladValue.Login] ~= nil) then
-                    local EditAdmin = {Modified = false, Data = {} }
+                if ((ladValue.Login ~= nil) and (ladValue.Data ~= nil)) then
+                    if (AdminsData[ladValue.Login] ~= nil) then
+                        local ChangedAdmin = {Modified = false, Data = {} }
 
-                    if (ladValue.Data.Term ~= AdminsData[ladValue.Login].Term) then
-                        EditAdmin.Data.Term = AdminsData[ladValue.Login].Term
+                        if (tonumber(ladValue.Data.Term) ~= AdminsData[ladValue.Login].Term) then
+                            ChangedAdmin.Data.Term = AdminsData[ladValue.Login].Term
 
-                        EditAdmin.Modified = true
+                            ChangedAdmin.Modified = true
+                        end
+
+                        if (ladValue.Data.ACLGroup ~= AdminsData[ladValue.Login].ACLGroup) then
+                            ChangedAdmin.Data.ACLGroup = AdminsData[ladValue.Login].ACLGroup
+
+                            ChangedAdmin.Modified = true
+                        end
+
+                        if (ladValue.Data.BindingToSerial ~= AdminsData[ladValue.Login].BindingToSerial) then
+                            ChangedAdmin.Data.BindingToSerial = AdminsData[ladValue.Login].BindingToSerial
+
+                            ChangedAdmin.Modified = true
+                        end
+
+                        if ((AdminsData[ladValue.Login].Name ~= nil) and ((ladValue.Data.Name == nil) or (ladValue.Data.Name ~= AdminsData[ladValue.Login].Name))) then
+                            ChangedAdmin.Data.Name = AdminsData[ladValue.Login].Name
+
+                            ChangedAdmin.Modified = true
+                        end
+
+                        if (ChangedAdmin.Modified == true) then
+                            table.insert(ChangedAdminsData, {Login = ladValue.Login, Data = ChangedAdmin.Data})
+                        end
                     end
+                else
+                    returnTable.ErrorCode = (-3)
+                    returnTable.ErrorData = {Key = ladKey}
 
-                    if (ladValue.Data.ACLGroup ~= AdminsData[ladValue.Login].ACLGroup) then
-                        EditAdmin.Data.ACLGroup = AdminsData[ladValue.Login].ACLGroup
-
-                        EditAdmin.Modified = true
-                    end
-
-                    if (ladValue.Data.BindingToSerial ~= AdminsData[ladValue.Login].BindingToSerial) then
-                        EditAdmin.Data.BindingToSerial = AdminsData[ladValue.Login].BindingToSerial
-
-                        EditAdmin.Modified = true
-                    end
-
-                    if ((AdminsData[ladValue.Login].Name ~= nil) and ((ladValue.Data.Name == nil) or ((ladValue.Data.Name ~= nil) and (AdminsData[ladValue.Login].Name ~= ladValue.Data.Name)))) then
-                        EditAdmin.Data.Name = AdminsData[ladValue.Login].Name
-
-                        EditAdmin.Modified = true
-                    end
-
-                    if (EditAdmin.Modified == true) then
-                        table.insert(EditedAdminsData, {Login = ladValue.Login, Data = EditAdmin.Data})
-                    end
+                    break
                 end
             end
 
-            returnTable.Response = EditedAdminsData
+            returnTable.Response = ChangedAdminsData
         else
             returnTable.ErrorCode = (-2)
         end
