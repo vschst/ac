@@ -103,15 +103,15 @@ function editAdmin(adminLogin, EditedAdminData)
                 if (updateAdminsListDataOnClient == true) then
                     local UpdatedDataClient = {}
 
-                    if (UpdatedData.Name ~= nil) then
+                    if (EditedAdminData.Name ~= nil) then
                         UpdatedDataClient.Name = AdminsData[adminLogin].Name
                     end
 
-                    if (UpdatedData.ACLGroup ~= nil) then
+                    if (EditedAdminData.ACLGroup ~= nil) then
                         UpdatedDataClient.ACLGroup = AdminsData[adminLogin].ACLGroup
                     end
 
-                    if (UpdatedData.Term ~= nil) then
+                    if (EditedAdminData.Term ~= nil) then
                         UpdatedDataClient.DateOfRemoval = (AdminsData[adminLogin].DateOfIssue + (AdminsData[adminLogin].Term * 86400))
                     end
 

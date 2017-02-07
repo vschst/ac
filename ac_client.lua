@@ -345,7 +345,7 @@ function loadWarningAboutDeadlineOfAdminGUI ()
     --Create window
     WarningAboutDeadlineOfAdminGUIWindow = {}
 
-    WarningAboutDeadlineOfAdminGUIWindow.Width = 600 * ACSettings.GUIScale
+    WarningAboutDeadlineOfAdminGUIWindow.Width = 800 * ACSettings.GUIScale
     WarningAboutDeadlineOfAdminGUIWindow.Height = 250 * ACSettings.GUIScale
 
     WarningAboutDeadlineOfAdminGUIWindow.X = ((screenWidth - WarningAboutDeadlineOfAdminGUIWindow.Width) / 2)
@@ -373,7 +373,7 @@ function loadWarningAboutDeadlineOfAdminGUI ()
     WarningAboutDeadlineOfAdminGUITextLabel.Width = WarningAboutDeadlineOfAdminGUIWindow.Width - 20 * ACSettings.GUIScale
     WarningAboutDeadlineOfAdminGUITextLabel.Height = 130 * ACSettings.GUIScale
 
-    WarningAboutDeadlineOfAdminGUITextLabel.X = 10 * ACSettings.GUIScale
+    WarningAboutDeadlineOfAdminGUITextLabel.X = 20 * ACSettings.GUIScale
     WarningAboutDeadlineOfAdminGUITextLabel.Y = 50 * ACSettings.GUIScale
 
     local currentHeightPosition = WarningAboutDeadlineOfAdminGUITextLabel.Y + WarningAboutDeadlineOfAdminGUITextLabel.Height
@@ -396,7 +396,7 @@ function loadWarningAboutDeadlineOfAdminGUI ()
     --Confirm button
     WarningAboutDeadlineOfAdminGUIConfirmButton = {}
 
-    WarningAboutDeadlineOfAdminGUIConfirmButton.Width = 100 * ACSettings.GUIScale
+    WarningAboutDeadlineOfAdminGUIConfirmButton.Width = 150 * ACSettings.GUIScale
     WarningAboutDeadlineOfAdminGUIConfirmButton.Height = 100 * ACSettings.GUIScale
 
     WarningAboutDeadlineOfAdminGUIConfirmButton.X = (WarningAboutDeadlineOfAdminGUIWindow.Width - WarningAboutDeadlineOfAdminGUIConfirmButton.Width) / 2

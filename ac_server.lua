@@ -49,9 +49,9 @@ addEvent("ACErrorOutput", true)
 addEventHandler("ACErrorOutput", getRootElement(),
     function(ErrorSource, ErrorCode)
         if (getElementType(source) == "player") then
-            outputServerLog("[AC] Error! Player: " .. getPlayerName(source) .. ", Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', Code: '" .. ErrorCode .. "')")
+            outputServerLog("[AC] Error! Player: " .. getPlayerName(source) .. ", Error in " .. ErrorSource.Type .. " (Name: " .. ErrorSource.Name .. ", Code: " .. ErrorCode .. ")")
         else
-            outputServerLog("[AC] Error! Error in " .. ErrorSource.Type .. " (Name: '" .. ErrorSource.Name .. "', Code: '" .. ErrorCode .. "')")
+            outputServerLog("[AC] Error! Error in " .. ErrorSource.Type .. " (Name: " .. ErrorSource.Name .. ", Code: " .. ErrorCode .. ")")
         end
     end
 )
@@ -204,6 +204,8 @@ addEventHandler("onPlayerLogin", getRootElement(),
                                 error({Source = {Type = "function", Name = updateAdminDataResult.Source}, Code = updateAdminDataResult.Code})
                             end
 
+                            AdminsData[playerLogin].CurrentUse = true
+
                             if (addNewAdminsListDataOnClient == true) then
                                 local NewAdminsListDataClient = {
                                     Name = AdminsData[playerLogin].Name,
@@ -212,7 +214,7 @@ addEventHandler("onPlayerLogin", getRootElement(),
 
                                     DateOfRemoval = (AdminsData[playerLogin].DateOfIssue + (AdminsData[playerLogin].Term * 86400)),
 
-                                    CurrentUse = AdminsData[playerLogin].CurrentUse
+                                    CurrentUse = true
                                 }
 
                                 for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
@@ -223,7 +225,7 @@ addEventHandler("onPlayerLogin", getRootElement(),
                             else
                                 for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
                                     if (aclpValue == 2) then
-                                        triggerClientEvent(aclpKey, "UpdateAdminsListData", aclpKey, md5(playerLogin), {Name = AdminsData[playerLogin].Name, CurrentUse = AdminsData[playerLogin].CurrentUse})
+                                        triggerClientEvent(aclpKey, "UpdateAdminsListData", aclpKey, md5(playerLogin), {Name = AdminsData[playerLogin].Name, CurrentUse = true})
                                     end
                                 end
                             end
@@ -316,7 +318,7 @@ addEventHandler("onPlayerChangeNick", getRootElement(),
 
                                     DateOfRemoval = (AdminsData[playerLogin].DateOfIssue + (AdminsData[playerLogin].Term * 86400)),
 
-                                    CurrentUse = AdminsData[playerLogin].CurrentUse
+                                    CurrentUse = true
                                 }
 
                                 for aclpKey, aclpValue in pairs(ACLoadedPlayers) do
