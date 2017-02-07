@@ -12,7 +12,7 @@
 
 	<export function="addNewAdmin" type="server" />
 	<export function="removeAdmin" type="server" />
-	<export function="updateAdmin" type="server" />
+	<export function="editAdmin" type="server" />
 
 	<html src="web/index.html" default="true"/>
 	<html src="web/css/ac_main.css" raw="false"/>
