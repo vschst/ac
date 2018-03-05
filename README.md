@@ -88,57 +88,56 @@ Resource settings are available in the `meta.xml` file.
 
 # Exported functions
 * **addNewAdmin**
-  Adds admin data.
+  
+  Adds new admin data.
 
   * **Type**:
     Server-only function
 
-  * Syntax
+  * **Syntax**:
     >int **addNewAdmin**(string **adminLogin**, table **NewAdminData**)
 
-  * ###Аргументы
-    * **adminLogin**: Логин нового администратора.
+  * **Required Arguments**:
+    * **adminLogin**: Login of new administrator.
       
     * **NewAdminData**:
-    Таблица данных админ-полномочий. Должна иметь следующие ключи: `ACLGroup` - ACL-группа, `Issued` - логин
-    администратора, выдающего админ-полномочия, `DateOfIssue` - дата выдачи админ-полномочий в формате timestamp, `Term` - срок
-    действия полномочий (в днях), `BindingToSerial` - привязка аккаунта к Serial (Значение *true* - есть привязка, *false* - нет
-    привязки).
+    Table of admin powers data. Must have the following keys: `ACLGroup` - ACL Group, `Issued` - login of admin, issuing admin powers, `DateOfIssue` - date of issue of admin powers in the timestamp format, `Term` - the term of admin powers (in days), `BindingToSerial` - binding admin account to serial (The value of *true* - is binding *false* - no binding).
 
-  * ###Возвращаемое значение:
-    В случае успешного завершения функция возвращает *0*, в противном случае — ненулевое значение (код ошибки).
+  * **Returns**:
+    In case of successful completion, the function returns *0*, otherwise nonzero (error code).
     
-* ##removeAdmin
-  Удаляет данные админ-полномочий.
+* **removeAdmin**
+  
+  Removes admin data.
 
-  * ###Тип
-    Серверная функция
+  * **Type**:
+    Server-only function
 
-  * ###Синтаксис
+  * **Syntax**:
     >int **removeAdmin**(string **adminLogin**)
 
-  * ###Аргументы
-    * **adminLogin**: Логин администратора, данные админ-полномочий которого требуется удалить.
+  * **Required Arguments**:
+    * **adminLogin**: Login on administrator is admin powers which you want to delete.
 
-  * ###Возвращаемое значение
-    В случае успешного завершения функция возвращает *0*, в противном случае — ненулевое значение (код ошибки).
+  * **Returns**:
+    In case of successful completion, the function returns *0*, otherwise nonzero (error code).
     
-* ##editAdmin
-  Редактирует данные админ-полномочий.
+* **editAdmin**
+  
+  Edit admin data.
 
-  * ###Тип
-    Серверная функция
+  * **Type**:
+    Server-only function
 
-  * ###Синтаксис
+  * **Syntax**:
     >int **editAdmin**(string **adminLogin**, table **EditedAdminData**)
 
-  * ###Аргументы
-    * **adminLogin**: Логин администратора, данные админ-полномочий которого требуется отредактировать.
+  * **Required Arguments**:
+    * **adminLogin**: Login of administrator is admin powers which you want to edit.
     
     * **EditedAdminData**:
-    Таблица, содержащяя изменения в данных админ-полномочий. Допускаются следующие ключи: `ACLGroup` - ACL-группа, `Term` - срок
-    действия полномочий (в днях), `IP` - IP-адрес администратора, `Serial` - Serial администратора, `Name` - никнейм администратора,
-    `BindingToSerial` - привязка аккаунта к Serial (Значение *true* - есть привязка, *false* - нет привязки).
+    The table containing changes in admin powers data.
+    Allowed the following keys: `ACLGroup` - ACL group, `Term` - the term of admin powers (in days), `IP` - Administrator IP address, `Serial` - Administrator Serial, `Name` - Administrator nickname, `BindingToSerial` - binding admin account to serial (The value of *true* - is binding, *false* - no binding).
 
-  * ###Возвращаемое значение
-    В случае успешного завершения функция возвращает *0*, в противном случае — ненулевое значение (код ошибки).
+  * **Returns**:
+    In case of successful completion, the function returns *0*, otherwise nonzero (error code).
