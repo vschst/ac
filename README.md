@@ -19,7 +19,10 @@ In the logical part of the interface uses the JavaScript library jQuery and Mome
 
 # Installation
 Create a new directory with name **ac** in resource directory of your MTA server.
-Open created directory and upload the resource files from archive.
+Download the repository files to this folder
+```
+git clone https://github.com/victor192/ac path/to/directory/ac
+```
 To start resource, enter the following command in the server console
 ```
 start ac
