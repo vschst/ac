@@ -31,7 +31,7 @@ In case of successful start you will see the message
 ```
 [AC] Resource was successfully loaded!
 ```
-therwise, you will see a message with the place and the error code.
+otherwise, you will see a message with the place and the error code.
 If you want to run a resource with the server running, then edit the configuration file *mtaserver.conf*, adding following string
 ```
 <resource src="ac" startup="1" protected="0"/>
