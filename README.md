@@ -21,7 +21,7 @@ In the logical part of the interface uses the JavaScript library jQuery and Mome
 Create a new directory with name **ac** in resource directory of your MTA server.
 Download the repository files to this folder
 ```
-git clone https://github.com/victor192/ac path/to/directory/ac
+git clone https://github.com/vschst/ac path/to/directory/ac
 ```
 To start resource, enter the following command in the server console
 ```
